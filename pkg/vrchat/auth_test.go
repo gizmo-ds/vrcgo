@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func login(t *testing.T) *vrchat.VRChatClient {
+func login(t *testing.T) *vrchat.Client {
 	client, err := vrchat.New()
 	assert.NoError(t, err)
 	user, err := client.Login(os.Getenv("VRC_USN"), os.Getenv("VRC_PWD"))
@@ -20,7 +20,7 @@ func login(t *testing.T) *vrchat.VRChatClient {
 	return user
 }
 
-func login2FA(t *testing.T) *vrchat.VRChatClient {
+func login2FA(t *testing.T) *vrchat.Client {
 	client, err := vrchat.New()
 	assert.NoError(t, err)
 	user, err := client.Login(os.Getenv("VRC_USN_2FA"), os.Getenv("VRC_PWD_2FA"))

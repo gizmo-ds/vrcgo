@@ -4,12 +4,12 @@ import (
 	"errors"
 )
 
-func (v *VRChatClient) Logout() error {
+func (v *Client) Logout() error {
 	_, err := v.client.R().Put("logout")
 	return err
 }
 
-func (v *VRChatClient) Verify2FA(code string) error {
+func (v *Client) Verify2FA(code string) error {
 	var info struct {
 		Verified bool `json:"verified"`
 	}
@@ -25,7 +25,7 @@ func (v *VRChatClient) Verify2FA(code string) error {
 	return nil
 }
 
-func (v *VRChatClient) AuthUser() (err error) {
+func (v *Client) AuthUser() (err error) {
 	_, err = v.client.R().
 		SetResult(&v.Auth).
 		Get("auth/user")

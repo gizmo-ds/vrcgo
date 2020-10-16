@@ -17,7 +17,7 @@ const (
 )
 
 type (
-	VRChatClient struct {
+	Client struct {
 		client *resty.Client
 		Auth   structs.AuthResponse
 	}
@@ -32,7 +32,10 @@ func New() (*VRChat, error) {
 
 	client.OnAfterResponse(func(c *resty.Client, resp *resty.Response) error {
 		if resp.StatusCode() != http.StatusOK {
-			return fmt.Errorf("Response Error: %s\n%s\n", resp.Status(), resp.String())
+			return fmt.Errorf(
+				"Response Error: %s\n%s\n",
+				resp.Status(), resp.String(),
+			)
 		}
 		return nil
 	})
@@ -67,7 +70,7 @@ func (v *VRChat) RemoteConfig() error {
 	return err
 }
 
-func (v *VRChat) Login(username, password string) (user *VRChatClient, err error) {
+func (v *VRChat) Login(username, password string) (user *Client, err error) {
 	var info structs.AuthResponse
 	_, err = v.client.R().
 		SetBasicAuth(username, password).
@@ -76,14 +79,14 @@ func (v *VRChat) Login(username, password string) (user *VRChatClient, err error
 	if err != nil {
 		return nil, err
 	}
-	user = &VRChatClient{
+	user = &Client{
 		client: v.client,
 		Auth:   info,
 	}
 	return
 }
 
-func (v *VRChat) LoginWithSteam(steamTicket string) (user *VRChatClient, err error) {
+func (v *VRChat) LoginWithSteam(steamTicket string) (user *Client, err error) {
 	var info structs.AuthResponse
 	_, err = v.client.R().
 		SetBody(map[string]string{"steamTicket": steamTicket}).
@@ -92,7 +95,7 @@ func (v *VRChat) LoginWithSteam(steamTicket string) (user *VRChatClient, err err
 	if err != nil {
 		return nil, err
 	}
-	user = &VRChatClient{
+	user = &Client{
 		client: v.client,
 		Auth:   info,
 	}
