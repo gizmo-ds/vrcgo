@@ -1,0 +1,17 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: testing
+    image: golang:1.15-alpine
+    environment:
+      GOOS: linux
+      GOARCH: amd64
+      CGO_ENABLED: 0
+      VRC_USN:
+        from_secret: VRC_USN
+      VRC_PWD:
+        from_secret: VRC_PWD
+    commands:
+      - go test -v ./pkg/vrchat
