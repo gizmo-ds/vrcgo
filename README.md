@@ -1,6 +1,6 @@
 # VRC Go
 
-[![Build Status](https://drone.liuli.lol/api/badges/VRCM-Project/vrcgo/status.svg?ref=refs/heads/main)](https://drone.liuli.lol/VRCM-Project/vrcgo)
+[![Build Status](https://drone.liuli.lol/api/badges/VRCM-Project/vrcgo/status.svg)](https://drone.liuli.lol/VRCM-Project/vrcgo)
 [![Go Report](https://goreportcard.com/badge/github.com/VRCM-Project/vrcgo?style=flat-square)](https://goreportcard.com/report/github.com/VRCM-Project/vrcgo)
 [![Releases](https://img.shields.io/github/release/VRCM-Project/vrcgo/all.svg?style=flat-square)](https://github.com/VRCM-Project/vrcgo/releases)
 
