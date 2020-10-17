@@ -23,7 +23,7 @@ type (
 		AcceptedTOSVersion     int           `json:"acceptedTOSVersion"`
 		SteamID                string        `json:"steamId"`
 		SteamDetails           struct {
-			Steamid                  string `json:"steamid"`
+			SteamID                  string `json:"steamid"`
 			Communityvisibilitystate int    `json:"communityvisibilitystate"`
 			Profilestate             int    `json:"profilestate"`
 			Personaname              string `json:"personaname"`

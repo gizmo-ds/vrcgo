@@ -3,6 +3,7 @@ package vrchat_test
 import (
 	"os"
 	"testing"
+
 	"vrcgo/pkg/vrchat"
 
 	"github.com/joho/godotenv"
@@ -10,7 +11,7 @@ import (
 )
 
 func TestLogin(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	client := vrchat.New()
 	user, err := client.Login(os.Getenv("VRC_USN"), os.Getenv("VRC_PWD"))
@@ -20,7 +21,7 @@ func TestLogin(t *testing.T) {
 }
 
 func TestLoginWithSteam(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	steamTicket := os.Getenv("STEAM_TICKET")
 	if steamTicket == "" {

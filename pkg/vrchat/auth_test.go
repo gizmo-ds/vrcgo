@@ -3,6 +3,7 @@ package vrchat_test
 import (
 	"os"
 	"testing"
+
 	"vrcgo/pkg/vrchat"
 	"vrcgo/pkg/vrchat/structs"
 
@@ -29,7 +30,7 @@ func login2FA(t *testing.T) *vrchat.Client {
 }
 
 func TestLogout(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	user := login(t)
 	err := user.Logout()
@@ -37,7 +38,7 @@ func TestLogout(t *testing.T) {
 }
 
 func TestVerify2FA(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	code := os.Getenv("VRC_2FA_CODE")
 	if code == "" {
@@ -51,7 +52,7 @@ func TestVerify2FA(t *testing.T) {
 }
 
 func TestAuthUser(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	user := login(t)
 	user.Auth = structs.AuthResponse{}

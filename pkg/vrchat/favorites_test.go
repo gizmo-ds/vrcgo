@@ -2,6 +2,7 @@ package vrchat_test
 
 import (
 	"testing"
+
 	"vrcgo/pkg/vrchat"
 
 	"github.com/joho/godotenv"
@@ -14,7 +15,7 @@ const (
 )
 
 func TestGetFavorite(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	client := login(t)
 	info, err := client.GetFavorite(TestFavoriteID)
@@ -23,7 +24,7 @@ func TestGetFavorite(t *testing.T) {
 }
 
 func TestListAllFavorites(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	client := login(t)
 	list, err := client.ListAllFavorites(vrchat.FavoriteTypeWorld)
@@ -32,7 +33,7 @@ func TestListAllFavorites(t *testing.T) {
 }
 
 func TestListFriendFavorites(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	client := login(t)
 	list, err := client.ListFriendFavorites(vrchat.FavoriteFriendTag1)
@@ -41,7 +42,7 @@ func TestListFriendFavorites(t *testing.T) {
 }
 
 func TestListWorldFavorites(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	client := login(t)
 	list, err := client.ListWorldFavorites()

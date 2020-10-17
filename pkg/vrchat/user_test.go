@@ -13,7 +13,7 @@ const (
 )
 
 func TestGetUserByID(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	user := login(t)
 	userInfo, err := user.GetUserByID(TestUserID)
@@ -22,7 +22,7 @@ func TestGetUserByID(t *testing.T) {
 }
 
 func TestGetUserByName(t *testing.T) {
-	godotenv.Load()
+	_ = godotenv.Load()
 
 	user := login(t)
 	userInfo, err := user.GetUserByName(TestUserName)
