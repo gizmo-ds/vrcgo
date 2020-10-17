@@ -11,8 +11,7 @@ import (
 )
 
 func login(t *testing.T) *vrchat.Client {
-	client, err := vrchat.New()
-	assert.NoError(t, err)
+	client := vrchat.New()
 	user, err := client.Login(os.Getenv("VRC_USN"), os.Getenv("VRC_PWD"))
 	assert.NoError(t, err)
 	assert.NotNil(t, user)
@@ -21,8 +20,7 @@ func login(t *testing.T) *vrchat.Client {
 }
 
 func login2FA(t *testing.T) *vrchat.Client {
-	client, err := vrchat.New()
-	assert.NoError(t, err)
+	client := vrchat.New()
 	user, err := client.Login(os.Getenv("VRC_USN_2FA"), os.Getenv("VRC_PWD_2FA"))
 	assert.NoError(t, err)
 	assert.NotNil(t, user)

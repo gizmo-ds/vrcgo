@@ -27,7 +27,7 @@ type (
 	}
 )
 
-func New() (*VRChat, error) {
+func New() *VRChat {
 	client := resty.New()
 
 	client.OnAfterResponse(func(c *resty.Client, resp *resty.Response) error {
@@ -50,54 +50,53 @@ func New() (*VRChat, error) {
 		SetTimeout(time.Second * 10).
 		SetRetryCount(3)
 
+	return &VRChat{
+		client: client,
+	}
+}
+
+func (v *VRChat) Login(username, password string) (*Client, error) {
+	client := *v.client
 	jar, err := cookiejar.New(nil)
 	if err != nil {
 		return nil, err
 	}
 	client.SetCookieJar(jar)
 
-	v := VRChat{
-		client: client,
-	}
-
-	err = v.RemoteConfig()
-
-	return &v, err
-}
-
-func (v *VRChat) RemoteConfig() error {
-	_, err := v.client.R().Get("config")
-	return err
-}
-
-func (v *VRChat) Login(username, password string) (user *Client, err error) {
 	var info structs.AuthResponse
-	_, err = v.client.R().
+	_, err = client.R().
 		SetBasicAuth(username, password).
 		SetResult(&info).
 		Get("auth/user")
 	if err != nil {
 		return nil, err
 	}
-	user = &Client{
-		client: v.client,
+
+	return &Client{
+		client: &client,
 		Auth:   info,
-	}
-	return
+	}, nil
 }
 
-func (v *VRChat) LoginWithSteam(steamTicket string) (user *Client, err error) {
+func (v *VRChat) LoginWithSteam(steamTicket string) (*Client, error) {
+	client := *v.client
+	jar, err := cookiejar.New(nil)
+	if err != nil {
+		return nil, err
+	}
+	client.SetCookieJar(jar)
+
 	var info structs.AuthResponse
-	_, err = v.client.R().
+	_, err = client.R().
 		SetBody(map[string]string{"steamTicket": steamTicket}).
 		SetResult(&info).
 		Post("auth/steam")
 	if err != nil {
 		return nil, err
 	}
-	user = &Client{
-		client: v.client,
+
+	return &Client{
+		client: &client,
 		Auth:   info,
-	}
-	return
+	}, nil
 }

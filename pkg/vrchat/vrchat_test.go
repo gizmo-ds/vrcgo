@@ -12,8 +12,7 @@ import (
 func TestLogin(t *testing.T) {
 	godotenv.Load()
 
-	client, err := vrchat.New()
-	assert.NoError(t, err)
+	client := vrchat.New()
 	user, err := client.Login(os.Getenv("VRC_USN"), os.Getenv("VRC_PWD"))
 	assert.NoError(t, err)
 	assert.NotNil(t, user)
@@ -28,8 +27,7 @@ func TestLoginWithSteam(t *testing.T) {
 		t.Skip("skipping test; $STEAM_TICKET not set")
 	}
 
-	client, err := vrchat.New()
-	assert.NoError(t, err)
+	client := vrchat.New()
 	user, err := client.LoginWithSteam(steamTicket)
 	assert.NoError(t, err)
 	assert.NotNil(t, user)
