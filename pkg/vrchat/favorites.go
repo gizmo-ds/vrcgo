@@ -20,14 +20,14 @@ const (
 	FavoriteWorldTag4 = "worlds4"
 )
 
-func (v *Client) GetFavorite(favoriteID string) (info structs.FavoriteInfo, err error) {
+func (v *Client) GetFavorite(favoriteID string) (info structs.Favorite, err error) {
 	_, err = v.client.R().
 		SetResult(&info).
 		Get(strings.Join([]string{"favorites", favoriteID}, "/"))
 	return
 }
 
-func (v *Client) ListAllFavorites(favoriteType string) (list []structs.FavoriteInfo, err error) {
+func (v *Client) ListAllFavorites(favoriteType string) (list []structs.Favorite, err error) {
 	_, err = v.client.R().
 		SetResult(&list).
 		SetQueryParam("type", favoriteType).
@@ -35,21 +35,21 @@ func (v *Client) ListAllFavorites(favoriteType string) (list []structs.FavoriteI
 	return
 }
 
-func (v *Client) ListFriendFavorites(tag string) (list []structs.FavoriteInfo, err error) {
+func (v *Client) ListFriendFavorites(tag string) (list []structs.Favorite, err error) {
 	_, err = v.client.R().
 		SetResult(&list).
 		Get("auth/user/friends/favorite")
 	return
 }
 
-func (v *Client) ListWorldFavorites() (list []structs.FavoriteInfo, err error) {
+func (v *Client) ListWorldFavorites() (list []structs.Favorite, err error) {
 	_, err = v.client.R().
 		SetResult(&list).
 		Get("worlds/favorites")
 	return
 }
 
-func (v *Client) AddFavorite(favoriteType, objectID, tag string) (info structs.FavoriteInfo, err error) {
+func (v *Client) AddFavorite(favoriteType, objectID, tag string) (info structs.Favorite, err error) {
 	_, err = v.client.R().
 		SetResult(&info).
 		SetBody(map[string]interface{}{

@@ -19,7 +19,7 @@ const (
 type (
 	Client struct {
 		client *resty.Client
-		Auth   structs.AuthResponse
+		Auth   structs.CurrentUser
 	}
 
 	VRChat struct {
@@ -63,7 +63,7 @@ func (v *VRChat) Login(username, password string) (*Client, error) {
 	}
 	client.SetCookieJar(jar)
 
-	var info structs.AuthResponse
+	var info structs.CurrentUser
 	_, err = client.R().
 		SetBasicAuth(username, password).
 		SetResult(&info).
@@ -86,7 +86,7 @@ func (v *VRChat) LoginWithSteam(steamTicket string) (*Client, error) {
 	}
 	client.SetCookieJar(jar)
 
-	var info structs.AuthResponse
+	var info structs.CurrentUser
 	_, err = client.R().
 		SetBody(map[string]string{"steamTicket": steamTicket}).
 		SetResult(&info).

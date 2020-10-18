@@ -34,3 +34,17 @@ func (v *Client) AuthUser() (err error) {
 	}
 	return
 }
+
+func (v *Client) AuthToken() (token string, err error) {
+	var info struct {
+		Token string `json:"token"`
+	}
+	_, err = v.client.R().
+		SetResult(&info).
+		Get("auth")
+	if err != nil {
+		return
+	}
+	token = info.Token
+	return
+}

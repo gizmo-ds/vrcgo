@@ -55,7 +55,7 @@ func TestAuthUser(t *testing.T) {
 	_ = godotenv.Load()
 
 	user := login(t)
-	user.Auth = structs.AuthResponse{}
+	user.Auth = structs.CurrentUser{}
 	err := user.AuthUser()
 	assert.NoError(t, err)
 	assert.Equal(t, user.Auth.Username, os.Getenv("VRC_USN"))
