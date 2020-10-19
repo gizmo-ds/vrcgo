@@ -35,7 +35,7 @@ func NewClient() *Client {
 	}
 }
 
-func (c *Client) Dial(authToken string) (ctx context.Context, cancel func(), err error) {
+func (c *Client) dial(authToken string) (err error) {
 	if c.conn != nil {
 		_ = c.conn.Close()
 	}
@@ -48,11 +48,16 @@ func (c *Client) Dial(authToken string) (ctx context.Context, cancel func(), err
 		return
 	}
 	c.conn = conn
-	ctx, cancel = context.WithCancel(context.Background())
 	return
 }
 
-func (c *Client) Start(ctx context.Context) {
+func (c *Client) Start(token string) (cancel func(), err error) {
+	var ctx context.Context
+	ctx, cancel = context.WithCancel(context.Background())
+	if err = c.dial(token); err != nil {
+		return
+	}
+
 	go func() {
 		for {
 			select {
@@ -83,4 +88,5 @@ func (c *Client) Start(ctx context.Context) {
 			}
 		}
 	}()
+	return
 }

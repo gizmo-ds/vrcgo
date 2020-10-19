@@ -19,7 +19,7 @@ func TestNewClientAndClose(t *testing.T) {
 	}
 
 	client := wss.NewClient()
-	_, cancel, err := client.Dial(authToken)
+	cancel, err := client.Start(authToken)
 	assert.NoError(t, err)
 	assert.NotNil(t, cancel)
 	cancel()

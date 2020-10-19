@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"time"
+
 	"vrcgo/pkg/vrchat/structs"
+	"vrcgo/pkg/vrchat/wss"
 
 	"github.com/go-resty/resty/v2"
 	jsoniter "github.com/json-iterator/go"
@@ -19,7 +21,8 @@ const (
 type (
 	Client struct {
 		client *resty.Client
-		Auth   structs.CurrentUser
+		WSS    *wss.Client
+		User   structs.CurrentUser
 	}
 
 	VRChat struct {
@@ -72,10 +75,7 @@ func (v *VRChat) Login(username, password string) (*Client, error) {
 		return nil, err
 	}
 
-	return &Client{
-		client: &client,
-		Auth:   info,
-	}, nil
+	return newClient(&client, info), nil
 }
 
 func (v *VRChat) LoginWithSteam(steamTicket string) (*Client, error) {
@@ -95,8 +95,13 @@ func (v *VRChat) LoginWithSteam(steamTicket string) (*Client, error) {
 		return nil, err
 	}
 
+	return newClient(&client, info), nil
+}
+
+func newClient(client *resty.Client, user structs.CurrentUser) *Client {
 	return &Client{
-		client: &client,
-		Auth:   info,
-	}, nil
+		client: client,
+		WSS:    wss.NewClient(),
+		User:   user,
+	}
 }

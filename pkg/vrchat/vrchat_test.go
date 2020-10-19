@@ -17,7 +17,7 @@ func TestLogin(t *testing.T) {
 	user, err := client.Login(os.Getenv("VRC_USN"), os.Getenv("VRC_PWD"))
 	assert.NoError(t, err)
 	assert.NotNil(t, user)
-	assert.Equal(t, user.Auth.Username, os.Getenv("VRC_USN"))
+	assert.Equal(t, user.User.Username, os.Getenv("VRC_USN"))
 }
 
 func TestLoginWithSteam(t *testing.T) {
@@ -32,5 +32,5 @@ func TestLoginWithSteam(t *testing.T) {
 	user, err := client.LoginWithSteam(steamTicket)
 	assert.NoError(t, err)
 	assert.NotNil(t, user)
-	assert.Equal(t, user.Auth.Username, os.Getenv("VRC_USN"))
+	assert.Equal(t, user.User.Username, os.Getenv("VRC_USN"))
 }
