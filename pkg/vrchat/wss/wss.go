@@ -72,9 +72,9 @@ func (c *Client) Start(token string) (cancel func(), err error) {
 					var info structs.WebSocketMessage
 					if err := json.Unmarshal(msg, &info); err != nil {
 						log.Println(err)
-						return
+					} else {
+						mux(info)
 					}
-					mux(info)
 				}
 			}
 		}

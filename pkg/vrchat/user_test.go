@@ -21,7 +21,7 @@ func login(t *testing.T) *vrchat.Client {
 	user, err := client.Login(os.Getenv("VRC_USN"), os.Getenv("VRC_PWD"))
 	assert.NoError(t, err)
 	assert.NotNil(t, user)
-	assert.Equal(t, user.User.Username, os.Getenv("VRC_USN"))
+	assert.Equal(t, user.CurrentUser.Username, os.Getenv("VRC_USN"))
 	return user
 }
 
@@ -30,24 +30,24 @@ func login2FA(t *testing.T) *vrchat.Client {
 	user, err := client.Login(os.Getenv("VRC_USN_2FA"), os.Getenv("VRC_PWD_2FA"))
 	assert.NoError(t, err)
 	assert.NotNil(t, user)
-	assert.NotNil(t, user.User.RequiresTwoFactorAuth)
+	assert.NotNil(t, user.CurrentUser.RequiresTwoFactorAuth)
 	return user
 }
 
-func TestGetUserByID(t *testing.T) {
+func TestGetByID(t *testing.T) {
 	_ = godotenv.Load()
 
 	user := login(t)
-	userInfo, err := user.GetUserByID(TestUserID)
+	userInfo, err := user.User.GetByID(TestUserID)
 	assert.NoError(t, err)
 	assert.Equal(t, userInfo.Username, TestUserName)
 }
 
-func TestGetUserByName(t *testing.T) {
+func TestGetByName(t *testing.T) {
 	_ = godotenv.Load()
 
 	user := login(t)
-	userInfo, err := user.GetUserByName(TestUserName)
+	userInfo, err := user.User.GetByName(TestUserName)
 	assert.NoError(t, err)
 	assert.Equal(t, userInfo.Username, TestUserName)
 }
@@ -69,7 +69,7 @@ func TestVerify2FA(t *testing.T) {
 	}
 
 	user := login2FA(t)
-	assert.NotNil(t, user.User.RequiresTwoFactorAuth)
+	assert.NotNil(t, user.CurrentUser.RequiresTwoFactorAuth)
 	err := user.Verify2FA(code)
 	assert.NoError(t, err)
 }
@@ -78,8 +78,8 @@ func TestAuthUser(t *testing.T) {
 	_ = godotenv.Load()
 
 	user := login(t)
-	user.User = structs.CurrentUser{}
+	user.CurrentUser = structs.CurrentUser{}
 	err := user.AuthUser()
 	assert.NoError(t, err)
-	assert.Equal(t, user.User.Username, os.Getenv("VRC_USN"))
+	assert.Equal(t, user.CurrentUser.Username, os.Getenv("VRC_USN"))
 }

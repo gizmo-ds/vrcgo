@@ -2,7 +2,7 @@ package structs
 
 type (
 	User struct {
-		UserLimited
+		LimitedUser
 		BioLinks           []string `json:"bioLinks"`
 		Status             string   `json:"status"`
 		StatusDescription  string   `json:"statusDescription"`
@@ -15,7 +15,7 @@ type (
 		InstanceID         string   `json:"instanceId"`
 	}
 
-	UserLimited struct {
+	LimitedUser struct {
 		ID                             string   `json:"id"`
 		Username                       string   `json:"username"`
 		DisplayName                    string   `json:"displayName"`

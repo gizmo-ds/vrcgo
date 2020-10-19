@@ -18,7 +18,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Hello %s\n", vrc.User.DisplayName)
+	fmt.Printf("Hello %s\n", vrc.CurrentUser.DisplayName)
 
 	token, err := vrc.AuthToken()
 	if err != nil {

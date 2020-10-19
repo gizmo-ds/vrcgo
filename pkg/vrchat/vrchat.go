@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"vrcgo/pkg/vrchat/structs"
-	"vrcgo/pkg/vrchat/wss"
 
 	"github.com/go-resty/resty/v2"
 	jsoniter "github.com/json-iterator/go"
@@ -18,17 +17,9 @@ const (
 	API             = "https://api.vrchat.cloud/api/1"
 )
 
-type (
-	Client struct {
-		client *resty.Client
-		WSS    *wss.Client
-		User   structs.CurrentUser
-	}
-
-	VRChat struct {
-		client *resty.Client
-	}
-)
+type VRChat struct {
+	client *resty.Client
+}
 
 func New() *VRChat {
 	client := resty.New()
@@ -96,12 +87,4 @@ func (v *VRChat) LoginWithSteam(steamTicket string) (*Client, error) {
 	}
 
 	return newClient(&client, info), nil
-}
-
-func newClient(client *resty.Client, user structs.CurrentUser) *Client {
-	return &Client{
-		client: client,
-		WSS:    wss.NewClient(),
-		User:   user,
-	}
 }

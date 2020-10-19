@@ -18,7 +18,7 @@ func TestGetFavorite(t *testing.T) {
 	_ = godotenv.Load()
 
 	client := login(t)
-	info, err := client.GetFavorite(TestFavoriteID)
+	info, err := client.Favorite.Get(TestFavoriteID)
 	assert.NoError(t, err)
 	assert.Equal(t, info.FavoriteId, TestFavoriteWorldID)
 }
@@ -27,7 +27,7 @@ func TestListAllFavorites(t *testing.T) {
 	_ = godotenv.Load()
 
 	client := login(t)
-	list, err := client.ListAllFavorites(vrchat.FavoriteTypeWorld)
+	list, err := client.Favorite.All(vrchat.FavoriteTypeWorld)
 	assert.NoError(t, err)
 	assert.NotNil(t, list)
 }
@@ -36,7 +36,7 @@ func TestListFriendFavorites(t *testing.T) {
 	_ = godotenv.Load()
 
 	client := login(t)
-	list, err := client.ListFriendFavorites(vrchat.FavoriteFriendTag1)
+	list, err := client.Favorite.Friend(vrchat.FavoriteFriendTag1)
 	assert.NoError(t, err)
 	assert.NotNil(t, list)
 }
@@ -45,7 +45,7 @@ func TestListWorldFavorites(t *testing.T) {
 	_ = godotenv.Load()
 
 	client := login(t)
-	list, err := client.ListWorldFavorites()
+	list, err := client.Favorite.World()
 	assert.NoError(t, err)
 	assert.NotNil(t, list)
 }

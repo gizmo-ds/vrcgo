@@ -2,7 +2,10 @@ package vrchat
 
 import (
 	"strings"
+
 	"vrcgo/pkg/vrchat/structs"
+
+	"github.com/go-resty/resty/v2"
 )
 
 const (
@@ -20,14 +23,18 @@ const (
 	FavoriteWorldTag4 = "worlds4"
 )
 
-func (v *Client) GetFavorite(favoriteID string) (info structs.Favorite, err error) {
+type favorite struct {
+	client *resty.Client
+}
+
+func (v *favorite) Get(favoriteID string) (info structs.Favorite, err error) {
 	_, err = v.client.R().
 		SetResult(&info).
 		Get(strings.Join([]string{"favorites", favoriteID}, "/"))
 	return
 }
 
-func (v *Client) ListAllFavorites(favoriteType string) (list []structs.Favorite, err error) {
+func (v *favorite) All(favoriteType string) (list []structs.Favorite, err error) {
 	_, err = v.client.R().
 		SetResult(&list).
 		SetQueryParam("type", favoriteType).
@@ -35,21 +42,24 @@ func (v *Client) ListAllFavorites(favoriteType string) (list []structs.Favorite,
 	return
 }
 
-func (v *Client) ListFriendFavorites(tag string) (list []structs.Favorite, err error) {
-	_, err = v.client.R().
-		SetResult(&list).
-		Get("auth/user/friends/favorite")
+func (v *favorite) Friend(tag ...string) (list []structs.LimitedUser, err error) {
+	req := v.client.R().
+		SetResult(&list)
+	if len(tag) > 0 {
+		req = req.SetQueryParam("tag", tag[0])
+	}
+	_, err = req.Get("auth/user/friends/favorite")
 	return
 }
 
-func (v *Client) ListWorldFavorites() (list []structs.Favorite, err error) {
+func (v *favorite) World() (list []structs.LimitedWorld, err error) {
 	_, err = v.client.R().
 		SetResult(&list).
 		Get("worlds/favorites")
 	return
 }
 
-func (v *Client) AddFavorite(favoriteType, objectID, tag string) (info structs.Favorite, err error) {
+func (v *favorite) Add(favoriteType, objectID, tag string) (info structs.Favorite, err error) {
 	_, err = v.client.R().
 		SetResult(&info).
 		SetBody(map[string]interface{}{
@@ -61,7 +71,7 @@ func (v *Client) AddFavorite(favoriteType, objectID, tag string) (info structs.F
 	return
 }
 
-func (v *Client) RemoveFavorite(favoriteID string) (err error) {
+func (v *favorite) Remove(favoriteID string) (err error) {
 	_, err = v.client.R().
 		Delete(strings.Join([]string{"favorites", favoriteID}, "/"))
 	return
