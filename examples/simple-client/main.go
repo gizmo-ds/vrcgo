@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
+	"os/signal"
 
 	"vrcgo/pkg/vrchat"
 	"vrcgo/pkg/vrchat/structs"
@@ -45,14 +45,10 @@ func main() {
 		)
 	})
 
-	//interrupt := make(chan os.Signal, 1)
-	//signal.Notify(interrupt, os.Interrupt, os.Kill)
-	//
-	//<-interrupt
-	//cancel()
-	//fmt.Println("Close")
-	var a string
-	_, _ = fmt.Scan(&a)
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt, os.Kill)
+
+	<-interrupt
 	cancel()
-	time.Sleep(time.Second * 5)
+	fmt.Println("Close")
 }
