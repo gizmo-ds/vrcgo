@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"time"
 
 	"vrcgo/pkg/vrchat"
 	"vrcgo/pkg/vrchat/structs"
@@ -44,11 +45,14 @@ func main() {
 			info.User.DisplayName, info.World.GetName(),
 		)
 	})
+	wsClient.OnUserUpdate(func(info structs.WebSocketUserUpdate) {
+		log.Printf("UserUpdate: %s\n", info.User.DisplayName)
+	})
 
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt, os.Kill)
-
 	<-interrupt
 	cancel()
+	time.Sleep(time.Second * 1)
 	fmt.Println("Close")
 }

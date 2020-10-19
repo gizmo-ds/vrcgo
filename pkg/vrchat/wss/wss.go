@@ -59,31 +59,33 @@ func (c *Client) Start(token string) (cancel func(), err error) {
 
 	go func() {
 		for {
+			msgType, msg, err := c.conn.ReadMessage()
+			if err != nil {
+				if c.conn != nil {
+					_ = c.conn.Close()
+				}
+				return
+			}
+			if msg != nil {
+				switch msgType {
+				case websocket.TextMessage:
+					var info structs.WebSocketMessage
+					if err := json.Unmarshal(msg, &info); err != nil {
+						log.Println(err)
+						return
+					}
+					mux(info)
+				}
+			}
+		}
+	}()
+
+	go func() {
+		for {
 			select {
 			case <-ctx.Done():
 				_ = c.conn.Close()
 				return
-
-			default:
-				msgType, msg, err := c.conn.ReadMessage()
-				if err != nil {
-					log.Println(err)
-					if c.conn != nil {
-						_ = c.conn.Close()
-					}
-					return
-				}
-				if msg != nil {
-					switch msgType {
-					case websocket.TextMessage:
-						var info structs.WebSocketMessage
-						if err := json.Unmarshal(msg, &info); err != nil {
-							log.Println(err)
-							return
-						}
-						mux(info)
-					}
-				}
 			}
 		}
 	}()
