@@ -2,7 +2,6 @@ package wss
 
 import (
 	"context"
-	"encoding/json"
 	"log"
 	"net/http"
 	"net/url"

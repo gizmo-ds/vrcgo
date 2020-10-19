@@ -1,11 +1,14 @@
 package wss
 
 import (
-	"encoding/json"
 	"log"
 
 	"vrcgo/pkg/vrchat/structs"
+
+	jsoniter "github.com/json-iterator/go"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 func mux(msg structs.WebSocketMessage) {
 	var unmarshal = func(info interface{}) {
