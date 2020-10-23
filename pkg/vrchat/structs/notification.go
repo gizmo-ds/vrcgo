@@ -14,6 +14,8 @@ type (
 		Message        string      `json:"message,omitempty"`
 		Details        interface{} `json:"details,omitempty"`
 		CreatedAt      string      `json:"created_at"`
+		JobName        string      `json:"jobName,omitempty"`
+		JobColor       string      `json:"jobColor,omitempty"`
 	}
 
 	NotificationInviteDetails struct {
