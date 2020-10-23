@@ -14,7 +14,7 @@ import (
 
 const (
 	ClientUserAgent = "vrcgo/version 0.1.0"
-	API             = "https://api.vrchat.cloud/api/1"
+	Endpoint        = "https://api.vrchat.cloud/api/1"
 )
 
 type VRChat struct {
@@ -39,7 +39,7 @@ func New() *VRChat {
 	client.JSONUnmarshal = json.Unmarshal
 
 	client.
-		SetHostURL(API).
+		SetHostURL(Endpoint).
 		SetHeader("User-Agent", ClientUserAgent).
 		SetTimeout(time.Second * 10).
 		SetRetryCount(3)
