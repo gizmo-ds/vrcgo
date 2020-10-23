@@ -45,7 +45,7 @@ func TestListWorldFavorites(t *testing.T) {
 	_ = godotenv.Load()
 
 	client := login(t)
-	list, err := client.Favorite.World()
+	list, err := client.Favorite.World(vrchat.FavoriteWorldTag1)
 	assert.NoError(t, err)
 	assert.NotNil(t, list)
 }

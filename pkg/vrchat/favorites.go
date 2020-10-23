@@ -52,10 +52,13 @@ func (v *favorite) Friend(tag ...string) (list []structs.LimitedUser, err error)
 	return
 }
 
-func (v *favorite) World() (list []structs.LimitedWorld, err error) {
-	_, err = v.client.R().
-		SetResult(&list).
-		Get("worlds/favorites")
+func (v *favorite) World(tag ...string) (list []structs.LimitedWorld, err error) {
+	req := v.client.R().
+		SetResult(&list)
+	if len(tag) > 0 {
+		req = req.SetQueryParam("tag", tag[0])
+	}
+	_, err = req.Get("worlds/favorites")
 	return
 }
 
