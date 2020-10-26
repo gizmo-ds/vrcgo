@@ -16,6 +16,7 @@ type Client struct {
 	User         *user
 	Favorite     *favorite
 	Notification *notification
+	Moderation   *moderation
 }
 
 func newClient(client *resty.Client, u structs.CurrentUser) *Client {
@@ -26,6 +27,7 @@ func newClient(client *resty.Client, u structs.CurrentUser) *Client {
 		User:         &user{client: client},
 		Favorite:     &favorite{client: client},
 		Notification: &notification{client: client},
+		Moderation:   &moderation{client: client},
 	}
 }
 
